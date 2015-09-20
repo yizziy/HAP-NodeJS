@@ -24,10 +24,9 @@ var FAKE_LIGHT = {
 // Generate a consistent UUID for our light Accessory that will remain the same even when
 // restarting our server. We use the `uuid.generate` helper function to create a deterministic
 // UUID based on an arbitrary "namespace" and the word "light".
-var lightUUID = uuid.generate('hap-nodejs:accessories:light');
-
+var lightUUID = uuid.generate('hap-nodejs:accessories:light2');
 // This is the Accessory that we'll return to HAP-NodeJS that represents our fake light.
-var light = exports.accessory = new Accessory('Light2', lightUUID);
+var light = exports.accessory = new Accessory('Light3', lightUUID);
 
 // Add properties for publishing (in case we're using Core.js and not BridgedCore.js)
 light.username = "1A:2B:3C:4D:5E:FF";
@@ -38,7 +37,7 @@ light
   .getService(Service.AccessoryInformation)
   .setCharacteristic(Characteristic.Manufacturer, "Oltica")
   .setCharacteristic(Characteristic.Model, "Rev-1")
-  .setCharacteristic(Characteristic.SerialNumber, "A1S2NASF88EW");
+  .setCharacteristic(Characteristic.SerialNumber, "A1S2NASF88EF");
 
 // listen for the "identify" event for this Accessory
 light.on('identify', function(paired, callback) {
@@ -49,14 +48,12 @@ light.on('identify', function(paired, callback) {
 // Add the actual Lightbulb Service and listen for change events from iOS.
 // We can see the complete list of Services and Characteristics in `lib/gen/HomeKitTypes.js`
 light
-  .addService(Service.Lightbulb, "Fake Light") // services exposed to the user should have "names" like "Fake Light" for us
+  .addService(Service.Lightbulb, "Fake Light 2") // services exposed to the user should have "names" like "Fake Light" for us
   .getCharacteristic(Characteristic.On)
   .on('set', function(value, callback) {
     FAKE_LIGHT.setPowerOn(value);
     callback(); // Our fake Light is synchronous - this value has been successfully set
   });
-  
-  
 
 // We want to intercept requests for our current power state so we can query the hardware itself instead of
 // allowing HAP-NodeJS to return the cached Characteristic.value.
